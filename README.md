@@ -3,7 +3,7 @@
 Step for running SonarQube Scanner CLI.
 
 ## License
-Step is licensed under [GNU Lesser General Public License v3.0](LICENSE).
+Step is licensed under [MIT license](LICENSE).
 SonarQube Scanner CLI sources are available in [SonarSource/sonar-scanner-cli](https://github.com/SonarSource/sonar-scanner-cli) repository.
 
 ## How to use this Step

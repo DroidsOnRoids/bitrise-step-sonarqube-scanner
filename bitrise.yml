@@ -3,6 +3,42 @@ default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 
 workflows:
   test:
+    after_run:
+    - test-default-version
+    - test-explicit-version
+
+  test-explicit-version:
+    description: "Test with explicit scanner version"
+    before_run:
+    - _common
+    steps:
+    - path::./:
+        title: Step Test
+        run_if: true
+        inputs:
+        - scanner_version: "3.0.0.702"
+        - scanner_properties: |-
+            sonar.sources=.
+            sonar.projectKey=test
+            sonar.analysis.mode=preview
+            sonar.report.export.path=sonar-report.json
+
+  test-default-version:
+    description: "Test with default, implicit scanner version"
+    before_run:
+    - _common
+    steps:
+    - path::./:
+        title: Step Test
+        run_if: true
+        inputs:
+        - scanner_properties: |-
+            sonar.sources=.
+            sonar.projectKey=test
+            sonar.analysis.mode=preview
+            sonar.report.export.path=sonar-report.json
+
+  _common:
     steps:
     - script:
         inputs:
@@ -39,10 +75,10 @@ workflows:
               ;;
             esac
             
-            cd /tmp
-            wget https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.3.1.zip
-            unzip sonarqube-6.3.1.zip
-            /tmp/sonarqube-6.3.1/bin/${SONAR_ARCH}/sonar.sh start
+            cd $(mktemp -d)
+            wget https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.3.1.zip -O sonar-server.zip
+            unzip sonar-server.zip
+            sonarqube-6.3.1/bin/${SONAR_ARCH}/sonar.sh start
             echo "Waiting for server to finish starting"
             while ! curl --output /dev/null --silent --head http://localhost:9000
             do
@@ -54,20 +90,6 @@ workflows:
         - file_content: |-
             public class Test {
             }
-    - path::./:
-        title: Step Test
-        description: |-
-          The example input has a default value,
-          you can overwrite it if you want to, just like we did below,
-          but the step would use the default value specified in the `step.yml`
-          file if you would not specify another value.
-        run_if: true
-        inputs:
-        - scanner_properties: |-
-            sonar.sources=.
-            sonar.projectKey=test
-            sonar.analysis.mode=preview
-            sonar.report.export.path=sonar-report.json
 
   # ----------------------------------------------------------------
   # --- workflows to Share this step into a Step Library
