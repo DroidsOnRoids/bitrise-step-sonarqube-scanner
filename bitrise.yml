@@ -67,6 +67,7 @@ workflows:
             sonar.sources=.
             sonar.projectKey=test
             sonar.analysis.mode=preview
+            sonar.report.export.path=sonar-report.json
 
   # ----------------------------------------------------------------
   # --- workflows to Share this step into a Step Library

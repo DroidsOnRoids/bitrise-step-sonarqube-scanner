@@ -2,13 +2,16 @@ title: "SonarQube Scanner"
 summary: "Runs SonarQube Scanner CLI"
 description: |-
   This step provides only a **scanner** (client) which needs SonarQube **server** to work.
-  If you haven't access to server check out tutorial 
+  If you haven't access to server check out this tutorial: 
   [how to get started in two minutes](https://docs.sonarqube.org/display/SONAR/Get+Started+in+Two+Minutes).
   Local server can be spawned in previous script step. 
   See [test of this step](https://github.com/DroidsOnRoids/bitrise-step-sonarqube-scanner/blob/master/bitrise.yml) 
-  for sample implementation.
+  for sample step implementation.
+
+  Analysis result can be saved to file (specified via `sonar.report.export.path` property) or send directly by server e.g.
+  to [GitHub PullRequest comment](https://docs.sonarqube.org/display/PLUG/GitHub+Plugin).
   
-  Add `sonar-project.properties` file in the workspace root directory or type properties below.
+  Scanner properties can be provided via `sonar-project.properties` file in the workspace root directory or typed in input below.
   See [SonarQube Scanner documentation](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) 
   for more details.
   
@@ -18,28 +21,43 @@ website: https://github.com/DroidsOnRoids/bitrise-step-sonarqube-scanner
 source_code_url: https://github.com/DroidsOnRoids/bitrise-step-sonarqube-scanner
 support_url: https://github.com/DroidsOnRoids/bitrise-step-sonarqube-scanner/issues
 type_tags:
-  - utility
+- utility
+deps:
+  apt_get:
+  - name: unzip
+  - name: wget
+  brew:
+  - name: unzip
+  - name: wget
 is_requires_admin_user: false
 is_always_run: false
 is_skippable: false
 inputs:
-  - scanner_properties:
-    opts:
-      title: Scanner parameters in Java properties format
-      description: |-
-        See [analysis parameters](https://docs.sonarqube.org/display/SONAR/Analysis+Parameters) documentation
-        for list of possible options.
-        
-        Example:
-        ```
-          sonar.sources=.
-          sonar.login=TOKEN_HERE
-          sonar.projectKey=$BITRISE_APP_TITLE
-          sonar.host.url=https://sonar.example.test
-          sonar.analysis.mode=preview
-          #comments are also allowed
-        ```
-      is_required: false
-      is_expand: true
+- scanner_version: 3.0.1.733
+  opts:
+    title: Scanner CLI version
+    description: |-
+      Scanner CLI version to be used. Step will fail if invalid or non-existent is specified.
+    is_required: true
+- scanner_properties:
+  opts:
+    title: Scanner parameters in Java properties format
+    description: |-
+      See [analysis parameters](https://docs.sonarqube.org/display/SONAR/Analysis+Parameters) documentation
+      for list of possible options.
+      
+      Example:
+      ```
+        sonar.sources=.
+        sonar.login=TOKEN_HERE
+        #environment variables are evaluated
+        sonar.projectKey=$BITRISE_APP_TITLE
+        sonar.host.url=https://sonar.example.test
+        sonar.analysis.mode=preview
+        sonar.report.export.path=sonar-report.json
+      ```
+
+    is_required: false
+    is_expand: true
 run_if: ""
 

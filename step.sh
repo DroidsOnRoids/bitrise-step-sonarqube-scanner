@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -ex
 
-THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-SONAR_SCANNER_VERSION="3.0.1.733"
-
 if [[ ! -z ${scanner_properties} ]]; then
   if [[ -e sonar-project.properties ]]; then
     echo -e "\e[91mBoth sonar-project.properties file and step properties are provided. Choose only one of them.\e[0m"
@@ -13,5 +9,11 @@ if [[ ! -z ${scanner_properties} ]]; then
   echo -n "${scanner_properties}" > sonar-project.properties
 fi
 
-${THIS_SCRIPT_DIR}/sonar-scanner-${SONAR_SCANNER_VERSION}/bin/sonar-scanner
+pushd $(mktemp -d)
+wget https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${scanner_version}.zip
+unzip sonar-scanner-cli-${scanner_version}.zip
+TEMP_DIR=$(pwd)
+popd
+
+${TEMP_DIR}/sonar-scanner-${scanner_version}/bin/sonar-scanner
 
