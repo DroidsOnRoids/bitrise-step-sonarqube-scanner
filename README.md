@@ -1,6 +1,6 @@
 # bitrise-step-sonarqube-scanner
 
-Step for running SonarQube Scanner CLI.
+Step for running [SonarQube Scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) CLI.
 
 ## License
 Step is licensed under [MIT license](LICENSE).
