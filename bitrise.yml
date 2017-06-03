@@ -68,7 +68,7 @@ workflows:
               Darwin)
                 SONAR_ARCH="macosx-universal-64"
                 if [ "${JAVA_VERSION_MAJOR}" -lt "8" ]; then
-	          brew install caskroom/cask/java
+                  brew install caskroom/cask/java
                 fi
               ;;
               Linux)
