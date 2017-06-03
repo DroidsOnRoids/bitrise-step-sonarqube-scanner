@@ -62,13 +62,17 @@ workflows:
         - content: |-
             #!/usr/bin/env bash
             set -ex
+            JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
+
             case "$(uname -s)" in
               Darwin)
                 SONAR_ARCH="macosx-universal-64"
+                if [ "${JAVA_VERSION_MAJOR}" -lt "8" ]; then
+	          brew install caskroom/cask/java
+                fi
               ;;
               Linux)
                 SONAR_ARCH="linux-x86-64"
-                JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
                 if [ "${JAVA_VERSION_MAJOR}" -lt "8" ]; then
                   add-apt-repository -y ppa:openjdk-r/ppa
                   apt-get update
