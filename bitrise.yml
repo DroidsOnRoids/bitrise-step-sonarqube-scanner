@@ -68,6 +68,13 @@ workflows:
               ;;
               Linux)
                 SONAR_ARCH="linux-x86-64"
+                JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
+                if [ "${JAVA_VERSION_MAJOR}" -lt "8" ]; then
+                  add-apt-repository -y ppa:openjdk-r/ppa
+                  apt-get update
+                  apt-get -y install openjdk-8-jre-headless
+                  update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+                fi
               ;;
               *)
                 echo "Unsupported OS"
