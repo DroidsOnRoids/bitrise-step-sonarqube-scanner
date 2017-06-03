@@ -33,7 +33,7 @@ is_requires_admin_user: false
 is_always_run: false
 is_skippable: false
 inputs:
-- scanner_version: 3.0.1.733
+- scanner_version: 3.0.3.778
   opts:
     title: Scanner CLI version
     description: |-
