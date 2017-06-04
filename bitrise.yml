@@ -62,6 +62,7 @@ workflows:
         - content: |-
             #!/usr/bin/env bash
             set -ex
+            SERVER_VERSION=6.4
             JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
 
             case "$(uname -s)" in
@@ -87,13 +88,19 @@ workflows:
             esac
             
             cd $(mktemp -d)
-            wget https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.3.1.zip -O sonar-server.zip
+            wget https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-${SERVER_VERSION}.zip -O sonar-server.zip
             unzip sonar-server.zip
-            sonarqube-6.3.1/bin/${SONAR_ARCH}/sonar.sh start
-            echo "Waiting for server to finish starting"
+
+            sonarqube-${SERVER_VERSION}/bin/${SONAR_ARCH}/sonar.sh start
+            echo "Waiting for server to start"
             while ! curl --output /dev/null --silent --head http://localhost:9000
             do
-             sleep 0.5
+              sleep 0.5
+            done
+            echo "Waiting for server to finish starting"
+            until grep -m1 "SonarQube is up" sonarqube-${SERVER_VERSION}/logs/sonar.log
+            do
+              sleep 0.5
             done
     - generate-text-file:
         inputs:
