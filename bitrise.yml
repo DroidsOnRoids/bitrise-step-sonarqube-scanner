@@ -3,6 +3,8 @@ default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 
 workflows:
   test:
+    before_run:
+    - _start_server
     after_run:
     - test-default-version
     - test-explicit-version
@@ -10,7 +12,7 @@ workflows:
   test-explicit-version:
     description: "Test with explicit scanner version"
     before_run:
-    - _common
+    - _prepare_environment
     steps:
     - path::./:
         title: Step Test
@@ -26,7 +28,7 @@ workflows:
   test-default-version:
     description: "Test with default, implicit scanner version"
     before_run:
-    - _common
+    - _prepare_environment
     steps:
     - path::./:
         title: Step Test
@@ -37,26 +39,9 @@ workflows:
             sonar.projectKey=test
             sonar.analysis.mode=preview
             sonar.report.export.path=sonar-report.json
-
-  _common:
-    steps:
-    - script:
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-            set -ex
-            rm -rf ./_tmp
-    - change-workdir:
-        title: Switch working dir to test / _tmp dir
-        description: |-
-          To prevent step testing issues, like referencing relative
-          files with just './some-file' in the step's code, which would
-          work for testing the step from this directory directly
-          but would break if the step is included in another `bitrise.yml`.
-        run_if: true
-        inputs:
-        - path: ./_tmp
-        - is_create_path: true
+  
+  _start_server:
+    steps:  
     - script:
         inputs:
         - content: |-
@@ -98,10 +83,27 @@ workflows:
               sleep 0.5
             done
             echo "Waiting for server to finish starting"
-            until grep -m1 "SonarQube is up" sonarqube-${SERVER_VERSION}/logs/sonar.log
-            do
-              sleep 0.5
-            done
+            ( tail -f -n0 sonarqube-${SERVER_VERSION}/logs/sonar.log & ) | grep -q "SonarQube is up"
+
+  _prepare_environment:
+    steps:
+    - script:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            set -ex
+            rm -rf ./_tmp
+    - change-workdir:
+        title: Switch working dir to test / _tmp dir
+        description: |-
+          To prevent step testing issues, like referencing relative
+          files with just './some-file' in the step's code, which would
+          work for testing the step from this directory directly
+          but would break if the step is included in another `bitrise.yml`.
+        run_if: true
+        inputs:
+        - path: ./_tmp
+        - is_create_path: true
     - generate-text-file:
         inputs:
         - file_name: Test.java
@@ -159,3 +161,4 @@ workflows:
             bitrise share start -c ${MY_STEPLIB_REPO_FORK_GIT_URL}
             bitrise share create --stepid ${STEP_ID_IN_STEPLIB} --tag ${STEP_GIT_VERION_TAG_TO_SHARE} --git ${STEP_GIT_CLONE_URL}
             bitrise share finish
+
