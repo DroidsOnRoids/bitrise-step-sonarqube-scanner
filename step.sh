@@ -10,8 +10,12 @@ if [[ ! -z ${scanner_properties} ]]; then
 fi
 
 JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
-if [ "${JAVA_VERSION_MAJOR}" -lt "8" ]; then
-  echo -e "\e[91mSonar Scanner CLI requires JRE or JDK version 8 or newer. Version \"${JAVA_VERSION_MAJOR}\" has been detected, CLI may not work properly.\e[0m"
+if [ ! -z "${JAVA_VERSION_MAJOR}" ]; then
+  if [ "${JAVA_VERSION_MAJOR}" -lt "8" ]; then
+    echo -e "\e[93mSonar Scanner CLI requires JRE or JDK version 8 or newer. Version \"${JAVA_VERSION_MAJOR}\" has been detected, CLI may not work properly.\e[0m"
+  fi
+else
+  echo -e "\e[91mSonar Scanner CLI requires JRE or JDK version 8 or newer. None has been detected, CLI may not work properly.\e[0m"
 fi
 
 pushd $(mktemp -d)

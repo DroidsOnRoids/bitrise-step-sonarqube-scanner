@@ -4,10 +4,28 @@ default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 workflows:
   test:
     before_run:
+    - test-java-version-warning
     - _start_server
     after_run:
     - test-default-version
     - test-explicit-version
+
+  test-java-version-warning:
+    description: "Test if java version warning is shown"
+    steps:
+    - script:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            set -ex
+            JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
+            if [ "${JAVA_VERSION_MAJOR}" -lt "8" ]; then
+              mkfifo fifo
+              bash step.sh >fifo &
+              grep -m1 'Version "7" has been detected' fifo
+              kill $!
+              rm fifo
+            fi
 
   test-explicit-version:
     description: "Test with explicit scanner version"
