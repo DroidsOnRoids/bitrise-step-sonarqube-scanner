@@ -3,14 +3,34 @@ default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 
 workflows:
   test:
+    before_run:
+    - test-java-version-warning
+    - _start_server
     after_run:
     - test-default-version
     - test-explicit-version
 
+  test-java-version-warning:
+    description: "Test if java version warning is shown"
+    steps:
+    - script:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            set -ex
+            JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
+            if [ "${JAVA_VERSION_MAJOR}" -lt "8" ]; then
+              mkfifo fifo
+              bash step.sh >fifo &
+              grep -m1 'Version "7" has been detected' fifo
+              kill $!
+              rm fifo
+            fi
+
   test-explicit-version:
     description: "Test with explicit scanner version"
     before_run:
-    - _common
+    - _prepare_environment
     steps:
     - path::./:
         title: Step Test
@@ -26,7 +46,7 @@ workflows:
   test-default-version:
     description: "Test with default, implicit scanner version"
     before_run:
-    - _common
+    - _prepare_environment
     steps:
     - path::./:
         title: Step Test
@@ -37,8 +57,53 @@ workflows:
             sonar.projectKey=test
             sonar.analysis.mode=preview
             sonar.report.export.path=sonar-report.json
+  
+  _start_server:
+    steps:  
+    - script:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            set -ex
+            SERVER_VERSION=6.4
+            JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
 
-  _common:
+            case "$(uname -s)" in
+              Darwin)
+                SONAR_ARCH="macosx-universal-64"
+                if [ "${JAVA_VERSION_MAJOR}" -lt "8" ]; then
+                  brew install caskroom/cask/java
+                fi
+              ;;
+              Linux)
+                SONAR_ARCH="linux-x86-64"
+                if [ "${JAVA_VERSION_MAJOR}" -lt "8" ]; then
+                  add-apt-repository -y ppa:openjdk-r/ppa
+                  apt-get update
+                  apt-get -y install openjdk-8-jre-headless
+                  update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+                fi
+              ;;
+              *)
+                echo "Unsupported OS"
+                exit 1
+              ;;
+            esac
+            
+            cd $(mktemp -d)
+            wget https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-${SERVER_VERSION}.zip -O sonar-server.zip
+            unzip sonar-server.zip
+
+            sonarqube-${SERVER_VERSION}/bin/${SONAR_ARCH}/sonar.sh start
+            echo "Waiting for server to start"
+            while ! curl --output /dev/null --silent --head http://localhost:9000
+            do
+              sleep 0.5
+            done
+            echo "Waiting for server to finish starting"
+            ( tail -f -n0 sonarqube-${SERVER_VERSION}/logs/sonar.log & ) | grep -q "SonarQube is up"
+
+  _prepare_environment:
     steps:
     - script:
         inputs:
@@ -57,33 +122,6 @@ workflows:
         inputs:
         - path: ./_tmp
         - is_create_path: true
-    - script:
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-            set -ex
-            case "$(uname -s)" in
-              Darwin)
-                SONAR_ARCH="macosx-universal-64"
-              ;;
-              Linux)
-                SONAR_ARCH="linux-x86-64"
-              ;;
-              *)
-                echo "Unsupported OS"
-                exit 1
-              ;;
-            esac
-            
-            cd $(mktemp -d)
-            wget https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.3.1.zip -O sonar-server.zip
-            unzip sonar-server.zip
-            sonarqube-6.3.1/bin/${SONAR_ARCH}/sonar.sh start
-            echo "Waiting for server to finish starting"
-            while ! curl --output /dev/null --silent --head http://localhost:9000
-            do
-             sleep 0.5
-            done
     - generate-text-file:
         inputs:
         - file_name: Test.java
@@ -141,3 +179,4 @@ workflows:
             bitrise share start -c ${MY_STEPLIB_REPO_FORK_GIT_URL}
             bitrise share create --stepid ${STEP_ID_IN_STEPLIB} --tag ${STEP_GIT_VERION_TAG_TO_SHARE} --git ${STEP_GIT_CLONE_URL}
             bitrise share finish
+
