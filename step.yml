@@ -48,13 +48,14 @@ inputs:
       
       Example:
       ```
-        sonar.sources=.
-        sonar.login=TOKEN_HERE
-        #environment variables are evaluated
-        sonar.projectKey=$BITRISE_APP_TITLE
-        sonar.host.url=https://sonar.example.test
-        sonar.analysis.mode=preview
-        sonar.report.export.path=sonar-report.json
+      sonar.sources=.
+      sonar.java.binaries=.
+      sonar.login=TOKEN_HERE
+      #environment variables are evaluated
+      sonar.projectKey=$BITRISE_APP_TITLE
+      sonar.host.url=https://sonar.example.test
+      sonar.analysis.mode=preview
+      sonar.report.export.path=sonar-report.json
       ```
 
     is_required: false
