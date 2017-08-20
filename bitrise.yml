@@ -39,6 +39,7 @@ workflows:
         - scanner_version: "3.0.0.702"
         - scanner_properties: |-
             sonar.sources=.
+            sonar.java.binaries=.
             sonar.projectKey=test
             sonar.analysis.mode=preview
             sonar.report.export.path=sonar-report.json
@@ -54,6 +55,7 @@ workflows:
         inputs:
         - scanner_properties: |-
             sonar.sources=.
+            sonar.java.binaries=.
             sonar.projectKey=test
             sonar.analysis.mode=preview
             sonar.report.export.path=sonar-report.json
@@ -65,7 +67,7 @@ workflows:
         - content: |-
             #!/usr/bin/env bash
             set -ex
-            SERVER_VERSION=6.4
+            SERVER_VERSION=6.5
             JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
 
             case "$(uname -s)" in
