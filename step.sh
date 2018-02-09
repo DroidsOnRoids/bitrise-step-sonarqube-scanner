@@ -3,10 +3,9 @@ set -ex
 
 if [[ ! -z ${scanner_properties} ]]; then
   if [[ -e sonar-project.properties ]]; then
-    echo -e "\e[91mBoth sonar-project.properties file and step properties are provided. Choose only one of them.\e[0m"
-    exit 1
+    echo -e "\e[34mBoth sonar-project.properties file and step properties are provided. Appending properties to the file.\e[0m"
   fi
-  echo -n "${scanner_properties}" > sonar-project.properties
+  echo -n "${scanner_properties}" >> sonar-project.properties
 fi
 
 JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
