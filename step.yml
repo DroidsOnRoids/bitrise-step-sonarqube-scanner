@@ -15,7 +15,7 @@ description: |-
   See [SonarQube Scanner documentation](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) 
   for more details.
   
-  It's an error to both have that file and specify properties here at the same time.
+  If both file and properties are specified, they will be merged by appending properties to the file.
   
 website: https://github.com/DroidsOnRoids/bitrise-step-sonarqube-scanner
 source_code_url: https://github.com/DroidsOnRoids/bitrise-step-sonarqube-scanner
@@ -49,7 +49,7 @@ inputs:
       Example:
       ```
       sonar.sources=.
-      sonar.java.binaries=.
+      sonar.java.binaries=build/classes/kotlin/main
       sonar.login=TOKEN_HERE
       #environment variables are evaluated
       sonar.projectKey=$BITRISE_APP_TITLE
