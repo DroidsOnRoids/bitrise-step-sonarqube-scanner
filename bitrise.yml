@@ -100,7 +100,7 @@ workflows:
 
             if [[ $(id -u) -eq 0 ]]; then
               useradd -m bitrise
-              START_SERVER_COMMAND="su -c ${START_SERVER_COMMAND} bitrise"
+              START_SERVER_COMMAND="su -c \"${START_SERVER_COMMAND}\" bitrise"
             fi
 
             $START_SERVER_COMMAND
