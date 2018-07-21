@@ -1,4 +1,4 @@
-format_version: 1.3.1
+format_version: 5
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 
 workflows:
@@ -67,7 +67,7 @@ workflows:
         - content: |-
             #!/usr/bin/env bash
             set -ex
-            SERVER_VERSION=7.1
+            SERVER_VERSION=7.2.1
             JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
 
             case "$(uname -s)" in
