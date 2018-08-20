@@ -60,4 +60,14 @@ inputs:
 
     is_required: false
     is_expand: true
+- is_debug: "false"
+  opts:
+    title: Print all executed shell commands to a build log?
+    description: |-
+      Whether trace of shell commands should be printed to a build log.
+      Options:
+      * "true"
+      * "false" (default)
+    is_expand: false
+    value_options: ["true", "false"]
 run_if: ""
