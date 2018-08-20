@@ -1,3 +1,9 @@
+# 1.0.4 - 21.08.2018
+- Disable debug logs by default
+
+# 1.0.3 - 23.05.2018
+- Update default scanner version to 3.2.0.1227
+
 # 1.0.2 - 10.02.2018
 - Use both sonar-project.properties and scanner-properties provided by Bitrise - [#3](https://github.com/DroidsOnRoids/bitrise-step-sonarqube-scanner/issues/3)
 
