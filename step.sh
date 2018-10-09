@@ -18,7 +18,7 @@ else
 fi
 
 pushd $(mktemp -d)
-wget https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${scanner_version}.zip
+wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${scanner_version}.zip
 unzip sonar-scanner-cli-${scanner_version}.zip
 TEMP_DIR=$(pwd)
 popd
