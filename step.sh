@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-set -ex
+set -e
+
+if [[ "${is_debug}" == "true" ]]; then
+  set -x
+fi
+
 
 if [[ ! -z ${scanner_properties} ]]; then
   if [[ -e sonar-project.properties ]]; then
