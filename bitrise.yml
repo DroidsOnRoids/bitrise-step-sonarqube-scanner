@@ -67,7 +67,7 @@ workflows:
         - content: |-
             #!/usr/bin/env bash
             set -ex
-            SERVER_VERSION=7.2.1
+            SERVER_VERSION=7.3
             JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
 
             case "$(uname -s)" in
