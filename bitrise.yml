@@ -93,7 +93,7 @@ workflows:
             esac
 
             cd $(mktemp -d)
-            wget https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-${SERVER_VERSION}.zip -O sonar-server.zip
+            wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-${SERVER_VERSION}.zip -O sonar-server.zip
             unzip sonar-server.zip
 
             sonarqube-${SERVER_VERSION}/bin/${SONAR_ARCH}/sonar.sh start
