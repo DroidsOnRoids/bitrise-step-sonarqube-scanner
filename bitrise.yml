@@ -91,7 +91,7 @@ workflows:
         inputs:
         - scanner_properties: |-
             sonar.sources=.
-            sonar.java.binaries=.
+            sonar.organization=droidsonroidssonarcloudpublicbot-github
             sonar.projectKey=sonar-step-test-default-version
             sonar.login=866ac9820cbaaff1549475b3fa39ea11f621b441
             sonar.host.url=https://sonarcloud.io/
@@ -108,7 +108,7 @@ workflows:
         - scanner_version: 3.0.0.702
         - scanner_properties: |-
             sonar.sources=.
-            sonar.java.binaries=.
+            sonar.organization=droidsonroidssonarcloudpublicbot-github
             sonar.projectKey=sonar-step-test-explicit-version
             sonar.login=866ac9820cbaaff1549475b3fa39ea11f621b441
             sonar.host.url=https://sonarcloud.io/
