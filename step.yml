@@ -33,7 +33,7 @@ is_requires_admin_user: false
 is_always_run: false
 is_skippable: false
 inputs:
-- scanner_version: 3.2.0.1227
+- scanner_version: 3.3.0.1492
   opts:
     title: Scanner CLI version
     description: |-
@@ -54,7 +54,6 @@ inputs:
       #environment variables are evaluated
       sonar.projectKey=$BITRISE_APP_TITLE
       sonar.host.url=https://sonar.example.test
-      sonar.analysis.mode=preview
       sonar.report.export.path=sonar-report.json
       ```
 
