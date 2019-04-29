@@ -93,8 +93,7 @@ workflows:
             sonar.sources=.
             sonar.java.binaries=.
             sonar.projectKey=sonar-step-test-default-version
-            sonar.analysis.mode=preview
-            sonar.login=2dedf6102b5da926959203270bd0d09742b432bc
+            sonar.login=866ac9820cbaaff1549475b3fa39ea11f621b441
             sonar.host.url=https://sonarcloud.io/
             sonar.report.export.path=sonar-report.json
   test-explicit-version:
@@ -111,8 +110,7 @@ workflows:
             sonar.sources=.
             sonar.java.binaries=.
             sonar.projectKey=sonar-step-test-explicit-version
-            sonar.analysis.mode=preview
-            sonar.login=2dedf6102b5da926959203270bd0d09742b432bc
+            sonar.login=866ac9820cbaaff1549475b3fa39ea11f621b441
             sonar.host.url=https://sonarcloud.io/
             sonar.report.export.path=sonar-report.json
   test-java-version-warning:
