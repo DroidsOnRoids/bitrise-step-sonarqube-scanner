@@ -10,7 +10,7 @@ if [[ ! -z ${scanner_properties} ]]; then
   if [[ -e sonar-project.properties ]]; then
     echo -e "\e[34mBoth sonar-project.properties file and step properties are provided. Appending properties to the file.\e[0m"
   fi
-  echo -n "${scanner_properties}" >> sonar-project.properties
+  echo "${scanner_properties}" >> sonar-project.properties
 fi
 
 JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
@@ -28,5 +28,13 @@ unzip sonar-scanner-cli-${scanner_version}.zip
 TEMP_DIR=$(pwd)
 popd
 
-${TEMP_DIR}/sonar-scanner-${scanner_version}/bin/sonar-scanner
+
+
+if [[ "${is_debug}" == "true" ]]; then
+  debug_flag="-X"
+else
+  debug_flag=""
+fi
+
+${TEMP_DIR}/sonar-scanner-${scanner_version}/bin/sonar-scanner $debug_flag
 
