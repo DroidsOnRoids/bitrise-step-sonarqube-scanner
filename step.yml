@@ -64,6 +64,8 @@ inputs:
     title: Print all executed shell commands to a build log?
     description: |-
       Whether trace of shell commands should be printed to a build log.
+      In addition, debug logging will be enabled for SonarQube (by adding the -X argument).
+      
       Options:
       * "true"
       * "false" (default)
