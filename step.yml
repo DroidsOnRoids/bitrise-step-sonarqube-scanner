@@ -33,11 +33,13 @@ is_requires_admin_user: false
 is_always_run: false
 is_skippable: false
 inputs:
-- scanner_version: 4.3.0.2102
+- scanner_version: latest
   opts:
     title: Scanner CLI version
     description: |-
       Scanner CLI version to be used. Step will fail if invalid or non-existent is specified.
+
+      `latest` can be used to use the latest available scanner
     is_required: true
 - scanner_properties:
   opts:

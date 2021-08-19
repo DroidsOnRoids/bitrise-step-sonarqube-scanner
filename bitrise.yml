@@ -81,7 +81,7 @@ workflows:
     - test-default-version
     - test-explicit-version
   test-default-version:
-    description: Test with default, implicit scanner version
+    description: Test with default, latest scanner version
     before_run:
     - _prepare_environment
     steps:

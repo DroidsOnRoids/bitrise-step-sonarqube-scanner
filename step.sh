@@ -23,6 +23,13 @@ else
   echo -e "\e[91mSonar Scanner CLI requires JRE or JDK version 8 or newer. None has been detected, CLI may not work properly.\e[0m"
 fi
 
+
+if [[ "$scanner_version" == "latest" ]]; then
+  scanner_version=$(curl --silent "https://api.github.com/repos/SonarSource/sonar-scanner-cli/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+  echo "Use latest version: $scanner_version"
+fi
+
+
 pushd $(mktemp -d)
 wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${scanner_version}.zip
 unzip sonar-scanner-cli-${scanner_version}.zip
