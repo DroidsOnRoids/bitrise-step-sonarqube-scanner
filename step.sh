@@ -27,7 +27,7 @@ fi
 # Check current Java version against the minimum one required
 JAVA_VERSION_MAJOR=$(javac -version 2>&1 | cut -d' ' -f2 | cut -d'"' -f2 | sed '/^1\./s///' | cut -d'.' -f1)
 if [ ! -z "${JAVA_VERSION_MAJOR}" ]; then
-  if [ "${JAVA_VERSION_MAJOR}" -le "${MINIMUM_JAVA_VERSION_NEEDED}" ]; then
+  if [ "${JAVA_VERSION_MAJOR}" -lt "${MINIMUM_JAVA_VERSION_NEEDED}" ]; then
     echo -e "\e[93mSonar Scanner CLI \"${scanner_version}\" requires JRE or JDK version ${MINIMUM_JAVA_VERSION_NEEDED} or newer. Version \"${JAVA_VERSION_MAJOR}\" has been detected, CLI may not work properly.\e[0m"
   fi
 else
