@@ -38,6 +38,8 @@ inputs:
     title: Scanner CLI version
     description: |-
       Scanner CLI version to be used. Step will fail if invalid or non-existent is specified.
+
+      `latest` can be used to use the latest available scanner
     is_required: true
 - scanner_properties:
   opts:

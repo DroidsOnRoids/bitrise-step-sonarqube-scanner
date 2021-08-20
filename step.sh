@@ -15,6 +15,12 @@ if [[ ! -z ${scanner_properties} ]]; then
 fi
 
 
+if [[ "$scanner_version" == "latest" ]]; then
+  scanner_version=$(curl --silent "https://api.github.com/repos/SonarSource/sonar-scanner-cli/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+  echo "Use latest version: $scanner_version"
+fi
+
+
 # Identify minimum Java version required based on Sonarqube scanner used
 MINIMUM_JAVA_VERSION_NEEDED="8"
 if [[ $(echo "$scanner_version" | cut -d'.' -f1) -ge "4" ]]; then
