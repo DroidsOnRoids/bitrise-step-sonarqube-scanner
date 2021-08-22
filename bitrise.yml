@@ -89,6 +89,7 @@ workflows:
         title: Step Test
         run_if: "true"
         inputs:
+        - is_debug: "true"
         - scanner_properties: |-
             sonar.sources=.
             sonar.organization=droidsonroidssonarcloudpublicbot-github
@@ -106,6 +107,7 @@ workflows:
         run_if: "true"
         inputs:
         - scanner_version: 3.0.0.702
+        - is_debug: "true"
         - scanner_properties: |-
             sonar.sources=.
             sonar.organization=droidsonroidssonarcloudpublicbot-github
