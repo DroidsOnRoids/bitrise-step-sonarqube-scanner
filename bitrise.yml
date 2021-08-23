@@ -126,6 +126,7 @@ workflows:
             JAVA_VERSION_MAJOR=$(javac -version 2>&1 | cut -d' ' -f2 | cut -d'"' -f2 | sed '/^1\./s///' | cut -d'.' -f1)
             if [ "${JAVA_VERSION_MAJOR}" -lt "11" ]; then
               mkfifo fifo
+              export scanner_version=latest
               bash step.sh >fifo &
               grep -m1 'Version "8" has been detected' fifo
               kill $!
