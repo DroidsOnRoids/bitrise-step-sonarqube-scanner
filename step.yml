@@ -3,7 +3,7 @@ summary: "Runs SonarQube Scanner CLI"
 description: |-
   This step provides only a **scanner** (client) which needs SonarQube **server** to work.
   If you haven't access to server check out this tutorial: 
-  [how to get started in two minutes](https://docs.sonarqube.org/display/SONAR/Get+Started+in+Two+Minutes).
+  [how to get started in two minutes](https://docs.sonarqube.org/7.4/setup/get-started-2-minutes/).
   Local server can be spawned in previous script step. 
   See [test of this step](https://github.com/DroidsOnRoids/bitrise-step-sonarqube-scanner/blob/master/bitrise.yml) 
   for sample step implementation.
