@@ -3,16 +3,16 @@ summary: "Runs SonarQube Scanner CLI"
 description: |-
   This step provides only a **scanner** (client) which needs SonarQube **server** to work.
   If you haven't access to server check out this tutorial: 
-  [how to get started in two minutes](https://docs.sonarqube.org/7.4/setup/get-started-2-minutes/).
+  [Getting Started](https://docs.sonarsource.com/sonarqube/latest/#getting-started).
   Local server can be spawned in previous script step. 
   See [test of this step](https://github.com/DroidsOnRoids/bitrise-step-sonarqube-scanner/blob/master/bitrise.yml) 
   for sample step implementation.
 
   Analysis result can be saved to file (specified via `sonar.report.export.path` property) or send directly by server e.g.
-  to [GitHub PullRequest comment](https://docs.sonarqube.org/display/PLUG/GitHub+Plugin).
+  to [GitHub PullRequest comment](https://docs.sonarsource.com/sonarqube/latest/devops-platform-integration/github-integration/).
   
   Scanner properties can be provided via `sonar-project.properties` file in the workspace root directory or typed in input below.
-  See [SonarQube Scanner documentation](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) 
+  See [SonarQube Scanner documentation](https://docs.sonarsource.com/sonarqube/latest/analyzing-source-code/scanners/sonarscanner/) 
   for more details.
   
   If both file and properties are specified, they will be merged by appending properties to the file.
