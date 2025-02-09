@@ -6,11 +6,11 @@ if [[ "${is_debug}" == "true" ]]; then
 fi
 
 if [[ -n ${scanner_properties} ]]; then
-  if [[ -e sonar-project.properties ]]; then
-    echo -e "\e[34mBoth sonar-project.properties file and step properties are provided. Appending properties to the file.\e[0m"
-    echo "" >> sonar-project.properties
+  if [[ -e "${project_settings_path}" ]]; then
+    echo -e "\e[34mBoth project configuration file and step properties are provided. Appending properties to the file.\e[0m"
+    echo "" >> "${project_settings_path}"
   fi
-  echo "${scanner_properties}" >> sonar-project.properties
+  echo "${scanner_properties}" >> "${project_settings_path}"
 fi
 
 if [[ "$scanner_version" == "latest" ]]; then
@@ -48,5 +48,5 @@ else
   debug_flag=""
 fi
 
-"${TEMP_DIR}/sonar-scanner-${scanner_version}/bin/sonar-scanner" ${debug_flag}
+"${TEMP_DIR}/sonar-scanner-${scanner_version}/bin/sonar-scanner" ${debug_flag} -Dproject.settings="${project_settings_path}"
 

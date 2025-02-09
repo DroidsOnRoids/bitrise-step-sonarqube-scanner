@@ -63,6 +63,15 @@ inputs:
 
     is_required: false
     is_expand: true
+- project_settings_path: sonar-project.properties
+  opts:
+    title: Path of project configuration file
+    description: |-
+      See [alternatives to sonar-project.properties](https://docs.sonarsource.com/sonarqube-server/latest/analyzing-source-code/scanners/sonarscanner/#sonar-project-properties) documentation
+      before changing this value.
+
+      Specify the path to the project configuration file through the `-Dproject.settings=` argument.
+    is_required: true
 - is_debug: "false"
   opts:
     title: Print all executed shell commands to a build log?
