@@ -25,12 +25,12 @@ Step by step:
   * Best practice is to mark these options with something like `# define these in your .bitrise.secrets.yml`, in the `app:envs` section.
 7. Once you have all the required secret parameters in your `.bitrise.secrets.yml` you can just run this step with the [bitrise CLI](https://github.com/bitrise-io/bitrise): `bitrise run test`
 
-An example `.bitrise.secrets.yml` file:
+The following secrets are required to run tests. Create a `.bitrise.secrets.yml` file with:
 
 ```
 envs:
-- A_SECRET_PARAM_ONE: the value for secret one
-- A_SECRET_PARAM_TWO: the value for secret two
+- SONAR_ORGANIZATION: your_sonarcloud_organization
+- SONAR_LOGIN: your_sonarcloud_token
 ```
 
 ## How to create your own step
