@@ -21,6 +21,9 @@ workflows:
         inputs:
         - path: ./_tmp
         - is_create_path: true
+    - set-java-version@1:
+        inputs:
+        - set_java_version: "17"
     - generate-text-file:
         inputs:
         - file_name: Test.java
