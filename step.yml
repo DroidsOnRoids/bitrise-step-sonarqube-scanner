@@ -25,11 +25,9 @@ type_tags:
 deps:
   apt_get:
   - name: unzip
-  - name: wget
   - name: curl
   brew:
   - name: unzip
-  - name: wget
   - name: curl
 is_requires_admin_user: false
 is_always_run: false
